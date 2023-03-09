@@ -38,7 +38,7 @@ embeddings["facexrn50"] = "FaceXRN50"
 k_values = [1,3,5,10,50,100]
 
 #run linux command
-def run_command(command, logs = '/private/home/mzameshina/FACE/exp_results_image_privacy/r.log'):
+def run_command(command, logs = 'exp_results_image_privacy/r.log'):
     print(command)
     if logs:
         with open(logs, "a") as text_file:
@@ -197,13 +197,13 @@ def run_evaluation(embedding_method, number_images_per_person, features_dir,
                    original_features_dir, confounder_features_dir, k_values, table_output = True, output_to_file = True):
     print(embedding_method)
     k_val_string = ""
-    output_file = "/private/home/mzameshina/FACE/tables/" + embedding_method + "_" + str(number_images_per_person) + features_dir.split("/")[-1] + "_" + str(random.randint(1000000000000, 10000000000000-1)) + ".txt"
+    output_file = "/tables/" + embedding_method + "_" + str(number_images_per_person) + features_dir.split("/")[-1] + "_" + str(random.randint(1000000000000, 10000000000000-1)) + ".txt"
     for k in k_values:
         k_val_string += str(k) + " "
     of = "> " + output_file
     if output_to_file == False:
         of = ""
-    run_command('python3 /private/home/mzameshina/FACE/lfw_eval_multiple_images.py --embedding ' + str(embedding_method) + ' --number_images_per_person ' + str(number_images_per_person) + ' --features_dir ' + str(features_dir) + ' --original_features_dir ' + str(original_features_dir) + ' --confounder_features_dir '+ str(confounder_features_dir)  + ' --k_values ' + str(k_val_string) + ' --table_output ' + " " + str(of))
+    run_command('python3 /lfw_eval_multiple_images.py --embedding ' + str(embedding_method) + ' --number_images_per_person ' + str(number_images_per_person) + ' --features_dir ' + str(features_dir) + ' --original_features_dir ' + str(original_features_dir) + ' --confounder_features_dir '+ str(confounder_features_dir)  + ' --k_values ' + str(k_val_string) + ' --table_output ' + " " + str(of))
     return output_file
 
 # Creates a table for printing from multiple json files.
@@ -307,11 +307,11 @@ def resize(folder_list, tag = '_resized_112_112', k = 100000):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument("--original_dir", help="Directory with original (unmodified images)", required=False, default="/private/home/mzameshina/FACE/lfw_5_images_per_person")
-    parser.add_argument("--confounder_features_dir", help="Directory with confounders", required=False, default="/private/home/mzameshina/FACE/data/lfw_crop_single")
+    parser.add_argument("--original_dir", help="Directory with original (unmodified images)", required=False, default="lfw_5_images_per_person")
+    parser.add_argument("--confounder_features_dir", help="Directory with confounders", required=False, default="data/lfw_crop_single")
     parser.add_argument("--folder_paths", help="All the folders to be transformed to private", required=True)
     parser.add_argument("--folder_names", help="Names of each folder from folder_paths", required=True)
-    parser.add_argument("--results_folder", help="Directory to save results to", required=False, default='/private/home/mzameshina/FACE/exp_results_image_privacy/')
+    parser.add_argument("--results_folder", help="Directory to save results to", required=False, default='exp_results_image_privacy/')
     parser.add_argument("--num_images_per_person", help="Number of images per each person present in the datasets", required=False, default='5')
     parser.add_argument("--experiment_name", help="Current experiments title", required=False, default='lfw-experiment')
     parser.add_argument('-m', '--method', type=str, default='magface', help='face embedding method to use', required=False)
