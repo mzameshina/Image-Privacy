@@ -179,4 +179,3 @@ dependencies:
     - yapf==0.32.0
     - yarl==1.8.2
     - zipp==3.8.1
-prefix: /private/home/mzameshina/.conda/envs/ldm
